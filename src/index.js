@@ -134,8 +134,21 @@ class Game extends Component {
         }
 
         const moves = history.map((step, move) => {
-            const desc = move ?
-                `Go to move #${move}: box ${locateSpot(history[move - 1].squares, step.squares)}` : `Go to game start`;
+            // const desc = move ?
+            //     `Go to move #${move}: ${locateSpot(history[move - 1].squares, step.squares)[1]} on ${locateSpot(history[move - 1].squares, step.squares)[0]}` : `Go to game start`;
+
+            let desc;
+            if (!move) {
+                desc = `Go to game start`;
+                return desc;
+            } else {
+                const spot = locateSpot(history[move - 1].squares, step.squares);
+                const player = spot[1];
+                const row = spot[0][0];
+                const col = spot[0][1];
+                desc = `Go to move #${move}: ${player} at row ${row} column ${col}`;
+            }
+
             return (
                 <li key={move}>
                     <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -181,14 +194,30 @@ function calculateWinner(squares) {
 }
 
 function locateSpot(prevArr, nowArr) {
-    let idx = 0;
+    let idx = 0, now, coordinate;
     for (let i = 0; i < nowArr.length; i++) {
-        let now = nowArr[i];
+        now = nowArr[i];
         let prev = prevArr[i];
         if (now && !prev) {
             idx = i;
+            // return [idx, now]
+            coordinate = rowCol(idx);
+            return [coordinate, now];
         }
     }
-    console.log(idx)
-    return idx;
+}
+
+function rowCol(i) {
+    switch (i) {
+        case 0: return [1, 1];
+        case 1: return [1, 2];
+        case 2: return [1, 3];
+        case 3: return [2, 1];
+        case 4: return [2, 2];
+        case 5: return [2, 3];
+        case 6: return [3, 1];
+        case 7: return [3, 2];
+        case 8: return [3, 3];
+        default: return [0, 0];
+    }
 }

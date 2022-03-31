@@ -135,7 +135,7 @@ class Game extends Component {
 
         const moves = history.map((step, move) => {
             const desc = move ?
-                `Go to move #${move}` : `Go to game start`;
+                `Go to move #${move}: box ${locateSpot(history[move - 1].squares, step.squares)}` : `Go to game start`;
             return (
                 <li key={move}>
                     <button onClick={() => this.jumpTo(move)}>{desc}</button>
@@ -180,3 +180,15 @@ function calculateWinner(squares) {
     return null;
 }
 
+function locateSpot(prevArr, nowArr) {
+    let idx = 0;
+    for (let i = 0; i < nowArr.length; i++) {
+        let now = nowArr[i];
+        let prev = prevArr[i];
+        if (now && !prev) {
+            idx = i;
+        }
+    }
+    console.log(idx)
+    return idx;
+}

@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component, useState } from 'react';
 import ReactDOM from 'react-dom'; // deprecated
 // import * as ReactDOMClient from 'react-dom/client';
 import './index.css';
@@ -86,6 +86,29 @@ class Board extends Component {
     }
 }
 
+function MoveButton(props) {
+    /*
+(
+                <li key={move}>
+                    <button id={move} onClick={() => this.jumpTo(move)}>{desc}</button>
+                </li>
+            )
+    */
+
+    if (props.bold) {
+        return (
+            <li key={props.id}>
+                <button style={{fontWeight:'bolder'}} id={props.id} onClick={props.onClick}>{props.desc}</button>
+            </li>
+        )
+    }
+    return (
+            <li key={props.id}>
+                <button id={props.id} onClick={props.onClick}>{props.desc}</button>
+            </li>
+    )
+}
+
 class Game extends Component {
     constructor(props) {
         super(props);
@@ -95,6 +118,7 @@ class Game extends Component {
             }],
             xIsNext: true,
             stepNumber: 0,
+            bolds: Array(9).fill(false)
         };
     }
 
@@ -116,10 +140,15 @@ class Game extends Component {
     }
 
     jumpTo(step) {
-        this.setState({
-            stepNumber: step,
-            xIsNext: (step % 2) === 0
-        })
+        let newBolds = Array(9).fill(false);
+        newBolds[step] = true;
+        return (
+            this.setState({
+                stepNumber: step,
+                xIsNext: (step % 2) === 0,
+                bolds: newBolds
+            })
+        )
     }
 
     render() {
@@ -150,9 +179,7 @@ class Game extends Component {
             }
 
             return (
-                <li key={move}>
-                    <button onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
+                <MoveButton id={move} bold={this.state.bolds[move]} onClick={() => this.jumpTo(move)} desc={desc} />
             )
         });
 

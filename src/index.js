@@ -6,7 +6,7 @@ import './index.css';
 // can also be written like this
 function Square(props) {
     return (
-        <button className="square" onClick={props.onClick}>
+        <button className="square" id={props.id} onClick={props.onClick}>
             {props.value}
         </button>
     )
@@ -16,7 +16,7 @@ function Square(props) {
 class Board extends Component {
 
     renderSquare(i) {
-        return <Square className={i} value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
+        return <Square id={i} value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
     }
 
     renderRow(start, colCount) {

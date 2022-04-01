@@ -25,8 +25,8 @@ function Square(props) {
 // the whold board that contains all the little squares
 class Board extends Component {
     // creating each state for each square
-    /* lifted up
-    constructor(props) {
+    // lifted up
+/*    constructor(props) {
         super(props);
         this.state = {
             squares: Array(9).fill(null),
@@ -50,7 +50,29 @@ class Board extends Component {
     // is this a method?
     renderSquare(i) {
         // return <Square value={this.state.squares[i]} onClick={() => this.handleClick(i)} />;
-        return <Square value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
+        return <Square className={i} value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
+    }
+
+    renderRow(start, colCount) {
+        const row = [];
+        start = start * colCount;
+        const max = start + colCount;
+        for (let i = start; i < max; i++) {
+            row.push(this.renderSquare(i));
+        }
+        return (
+            <div className="board-row">
+                {row.map(square => square)}
+            </div>
+        )
+    }
+
+    renderBoard(rowCount) {
+        const rows = [];
+        for (let i = 0; i < rowCount; i++) {
+            rows.push(this.renderRow(i, rowCount));
+        }
+        return <div>{rows.map((row) => row)}</div>
     }
 
     render() {
@@ -64,6 +86,7 @@ class Board extends Component {
             status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
         } */
 
+        /*
         return (
             <div>
                 <div className="board-row">
@@ -82,18 +105,18 @@ class Board extends Component {
                     {this.renderSquare(8)}
                 </div>
             </div>
+        ) */
+
+        return (
+            <div>
+                {this.renderBoard(3)}
+            </div>
         )
     }
+
 }
 
 function MoveButton(props) {
-    /*
-(
-                <li key={move}>
-                    <button id={move} onClick={() => this.jumpTo(move)}>{desc}</button>
-                </li>
-            )
-    */
 
     if (props.bold) {
         return (

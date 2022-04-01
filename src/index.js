@@ -5,8 +5,19 @@ import './index.css';
 // all the little square in the board
 // can also be written like this
 function Square(props) {
+    const win = props.winner.length;
+    const a = props.winner[1];
+    const b = props.winner[2];
+    const c = props.winner[3];
+    const i = props.id;
+
     return (
-        <button className="square" id={props.id} onClick={props.onClick}>
+        <button
+        style={{color:`${win && (i === a || i === b || i === c) ? 'green' : 'black'}`}}
+        className='square'
+        id={props.id}
+        onClick={props.onClick}
+        >
             {props.value}
         </button>
     )
@@ -16,7 +27,7 @@ function Square(props) {
 class Board extends Component {
 
     renderSquare(i) {
-        return <Square id={i} value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
+        return <Square key={i} id={i} winner={this.props.winner} value={this.props.squares[i]} onClick={() => this.props.onClick(i)} />
     }
 
     renderRow(start, colCount) {
@@ -27,7 +38,7 @@ class Board extends Component {
             row.push(this.renderSquare(i));
         }
         return (
-            <div className="board-row">
+            <div key={start} id={`row-${start / colCount}`} className="board-row">
                 {row.map(square => square)}
             </div>
         )
@@ -38,14 +49,14 @@ class Board extends Component {
         for (let i = 0; i < rowCount; i++) {
             rows.push(this.renderRow(i, rowCount));
         }
-        return <div>{rows.map((row) => row)}</div>
+        return <React.Fragment>{rows.map((row) => row)}</React.Fragment>
     }
 
     render() {
         return (
-            <div>
+            <React.Fragment>
                 {this.renderBoard(3)}
-            </div>
+            </React.Fragment>
         )
     }
 
@@ -76,7 +87,8 @@ class Game extends Component {
             xIsNext: true,
             stepNumber: 0,
             bolds: Array(9).fill(false),
-            asc: true
+            asc: true,
+            winner: []
         };
         this.reverseOrder = this.reverseOrder.bind(this);
     }
@@ -142,14 +154,14 @@ class Game extends Component {
             }
 
             return (
-                <MoveButton id={move} bold={this.state.bolds[move]} onClick={() => this.jumpTo(move)} desc={desc} />
+                <MoveButton key={move} id={move} bold={this.state.bolds[move]} onClick={() => this.jumpTo(move)} desc={desc} />
             )
         })
 
         return (
             <div className="game">
                 <div className="game-board">
-                    <Board squares={current.squares} onClick={(i) => this.handleClick(i)} />
+                    <Board squares={current.squares} winner={calculateWinner(current.squares) ? calculateWinner(current.squares) : []} onClick={(i) => this.handleClick(i)} />
                 </div>
                 <div className="game-info">
                     <div>{status}</div>

@@ -88,7 +88,7 @@ class Game extends Component {
             stepNumber: 0,
             bolds: Array(9).fill(false),
             asc: true,
-            winner: []
+            winner: [],
         };
         this.reverseOrder = this.reverseOrder.bind(this);
     }
@@ -136,7 +136,7 @@ class Game extends Component {
         if (winner) {
             status = 'Winner: ' + winner[0];
         } else {
-            status = `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
+            status = history.length === 9 + 1 ? "It's a draw!" : `Next player: ${this.state.xIsNext ? 'X' : 'O'}`;
         }
 
         const moves = history.map((step, move) => {
@@ -166,7 +166,8 @@ class Game extends Component {
                 <div className="game-info">
                     <div>{status}</div>
                     <ul style={{flexDirection:`${this.state.asc?'column':'column-reverse'}`}}>{moves}</ul>
-                    <button onClick={this.reverseOrder}>Reverse the Order</button>
+                    <button onClick={this.reverseOrder}>Reverse the Chronological Order</button>
+                    <button onClick={this.reset}>New Game</button>
                 </div>
             </div>
         )

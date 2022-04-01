@@ -128,6 +128,19 @@ class Game extends Component {
         })
     }
 
+    reset = () => {
+        return this.setState({
+            history: [{
+                squares: Array(9).fill(null)
+            }],
+            xIsNext: true,
+            stepNumber: 0,
+            bolds: Array(9).fill(false),
+            asc: true,
+            winner: [],
+        });
+    }
+
     render() {
         const history = this.state.history;
         const current = history[this.state.stepNumber];

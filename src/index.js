@@ -1,4 +1,4 @@
-import React, { Component, useState } from 'react';
+import React, { Component } from 'react';
 import ReactDOM from 'react-dom'; // deprecated
 // import * as ReactDOMClient from 'react-dom/client';
 import './index.css';
@@ -117,7 +117,6 @@ class Board extends Component {
 }
 
 function MoveButton(props) {
-
     if (props.bold) {
         return (
             <li key={props.id}>
@@ -141,8 +140,10 @@ class Game extends Component {
             }],
             xIsNext: true,
             stepNumber: 0,
-            bolds: Array(9).fill(false)
+            bolds: Array(9).fill(false),
+            asc: true
         };
+        this.reverseOrder = this.reverseOrder.bind(this);
     }
 
     handleClick(i) {
@@ -172,6 +173,12 @@ class Game extends Component {
                 bolds: newBolds
             })
         )
+    }
+
+    reverseOrder() {
+        this.setState((prevState) => {
+            return {asc: !prevState.asc}
+        })
     }
 
     render() {
@@ -204,7 +211,7 @@ class Game extends Component {
             return (
                 <MoveButton id={move} bold={this.state.bolds[move]} onClick={() => this.jumpTo(move)} desc={desc} />
             )
-        });
+        })
 
         return (
             <div className="game">
@@ -213,7 +220,8 @@ class Game extends Component {
                 </div>
                 <div className="game-info">
                     <div>{status}</div>
-                    <ol>{moves}</ol>
+                    <ul style={{flexDirection:`${this.state.asc?'column':'column-reverse'}`}}>{moves}</ul>
+                    <button onClick={this.reverseOrder}>Reverse the Order</button>
                 </div>
             </div>
         )

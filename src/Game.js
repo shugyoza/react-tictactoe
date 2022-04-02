@@ -148,7 +148,7 @@ export default class Game extends Component {
 
             let desc;
             if (!move) {
-                desc = `Go to game start`;
+                desc = ``;
                 return desc;
             } else {
                 const spot = this.locateSpot(history[move - 1].squares, step.squares);
@@ -166,17 +166,21 @@ export default class Game extends Component {
         })
 
         return (
+            <React.Fragment>
             <div className="game">
                 <div className="game-board">
                     <div id="status">{status}</div>
                     <Board squares={current.squares} winner={this.calculateWinner(current.squares) ? this.calculateWinner(current.squares) : []} onClick={(i) => this.handleClick(i)} />
+                    <span id='foot'>Shugyoza, 2022, on React. <a href="#">Reference</a>. <a href="#">Github</a></span>
+
                 </div>
                 <div className="game-info">
-                    <ul style={{flexDirection:`${this.state.asc?'column':'column-reverse'}`}}>{moves}</ul>
-                    <button onClick={this.reverseOrder}>Reverse Chronology</button>
                     <button onClick={this.reset}>New Game</button>
+                    <button onClick={this.reverseOrder}>Reverse Chronology</button>
+                    <ul style={{flexDirection:`${this.state.asc?'column':'column-reverse'}`}}>{moves}</ul>
                 </div>
             </div>
+            </React.Fragment>
         )
     }
 }

@@ -45,6 +45,7 @@ ul {
   font-weight: bolder;
   height: 6rem;
   width: 6rem;
+  border: 1px solid gray;
 }
 
 .square:hover {

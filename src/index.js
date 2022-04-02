@@ -230,7 +230,7 @@ class Game extends Component {
                 const player = spot[1];
                 const row = spot[0][0];
                 const col = spot[0][1];
-                desc = `Go to move #${move}: ${player} at row ${row} column ${col}`;
+                desc = `Move #${move}: ${player} at row ${row} column ${col}`;
             }
 
             return (
@@ -243,12 +243,12 @@ class Game extends Component {
         return (
             <div className="game">
                 <div className="game-board">
+                    <div id="status">{status}</div>
                     <Board squares={current.squares} winner={this.calculateWinner(current.squares) ? this.calculateWinner(current.squares) : []} onClick={(i) => this.handleClick(i)} />
                 </div>
                 <div className="game-info">
-                    <div>{status}</div>
                     <ul style={{flexDirection:`${this.state.asc?'column':'column-reverse'}`}}>{moves}</ul>
-                    <button onClick={this.reverseOrder}>Reverse the Chronological Order</button>
+                    <button onClick={this.reverseOrder}>Reverse Chronology</button>
                     <button onClick={this.reset}>New Game</button>
                 </div>
             </div>

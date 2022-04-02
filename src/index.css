@@ -40,7 +40,7 @@ ul {
 }
 
 .square {
-  background: ivory;
+  background: lightgray;
   font-size: min(4rem, max(3rem, 2vw));
   font-weight: bolder;
   height: 6rem;

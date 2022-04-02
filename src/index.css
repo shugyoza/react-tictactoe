@@ -76,9 +76,6 @@ div.game-board {
 }
 
 li > button {
-  border-right: none;
-  border-bottom: none;
-  border: 1px solid gray;
   margin-left: 0.3rem;
 }
 
